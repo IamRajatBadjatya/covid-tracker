@@ -7,83 +7,68 @@ const Cards = ({ data: { confirmed, deaths, recovered, lastUpdate } }) => {
   console.log(lastUpdate);
   if (!confirmed) {
     return <p>Loading...</p>;
+  } else {
+    const cards = [
+      {
+        title: 'infected',
+        desc: 'Total number of infected',
+        value: confirmed.value
+      },
+      {
+        title: 'recovered',
+        desc: 'Total number of recovered',
+        value: recovered.value
+      },
+      {
+        title: 'deaths',
+        desc: 'Total number of deaths',
+        value: deaths.value
+      }
+    ];
+    return (
+      <div className={styles.container}>
+        <Grid container spacing={2}>
+          {cards.map((card) => (
+            <Grid item xs={12} md={4}>
+              <Card
+                className={[styles.fullHeight, styles.card, styles[card.title]].join(
+                  ' '
+                )}
+              >
+                <CardContent>
+                  <Typography color="textSecondary" gutterBottom>
+                    {card.title.toUpperCase()}
+                  </Typography>
+                  <Typography variant="h5" color="textPrimary" gutterBottom>
+                    <CountUp
+                      separator=","
+                      start={0}
+                      end={card.value}
+                      duration={3}
+                    ></CountUp>
+                  </Typography>
+                  <Typography
+                    variant="body2"
+                    color="textSecondary"
+                    gutterBottom
+                  >
+                    {new Date(lastUpdate).toLocaleDateString()}
+                  </Typography>
+                  <Typography
+                    variant="body1"
+                    color="textSecondary"
+                    gutterBottom
+                  >
+                    {card.desc}
+                  </Typography>
+                </CardContent>
+              </Card>
+            </Grid>
+          ))}
+        </Grid>
+      </div>
+    );
   }
-  return (
-    <div className={styles.container}>
-      <Grid container spacing={2}>
-        <Grid item xs={12} md={4}> 
-          <Card  className={[styles.fullHeight, styles.card, styles.infected].join(' ')}>
-            <CardContent>
-              <Typography color="textSecondary" gutterBottom>
-                Infected
-              </Typography>
-              <Typography variant="h5" color="textPrimary" gutterBottom>
-                <CountUp
-                  separator=","
-                  start={0}
-                  end={confirmed.value}
-                  duration={3}
-                ></CountUp>
-              </Typography>
-              <Typography variant="body2" color="textSecondary" gutterBottom>
-                {new Date(lastUpdate).toLocaleDateString()}
-              </Typography>
-              <Typography variant="body1" color="textSecondary" gutterBottom>
-                Total number of infected
-              </Typography>
-            </CardContent>
-          </Card>
-        </Grid>
-        <Grid item xs={12} md={4}> 
-          <Card  className={[styles.fullHeight, styles.card, styles.recovered].join(' ')}>
-            <CardContent>
-              <Typography color="textSecondary" gutterBottom>
-                Recovered
-              </Typography>
-              <Typography variant="h5" color="textPrimary" gutterBottom>
-                <CountUp
-                  separator=","
-                  start={0}
-                  end={recovered.value}
-                  duration={3}
-                ></CountUp>
-              </Typography>
-              <Typography variant="body2" color="textSecondary" gutterBottom>
-                {new Date(lastUpdate).toLocaleDateString()}
-              </Typography>
-              <Typography variant="body1" color="textSecondary" gutterBottom>
-                Total number of recovered
-              </Typography>
-            </CardContent>
-          </Card>
-        </Grid>
-        <Grid item xs={12} md={4}> 
-          <Card  className={[styles.fullHeight, styles.card, styles.deaths].join(' ')}>
-            <CardContent>
-              <Typography color="textSecondary" gutterBottom>
-                Deaths
-              </Typography>
-              <Typography variant="h5" color="textPrimary" gutterBottom>
-                <CountUp
-                  separator=","
-                  start={0}
-                  end={deaths.value}
-                  duration={3}
-                ></CountUp>
-              </Typography>
-              <Typography variant="body2" color="textSecondary" gutterBottom>
-                {new Date(lastUpdate).toLocaleDateString()}
-              </Typography>
-              <Typography variant="body1" color="textSecondary" gutterBottom>
-                Total number of deaths
-              </Typography>
-            </CardContent>
-          </Card>
-        </Grid>
-        
-      </Grid>
-    </div>
-  );
 };
 
 export default Cards;
